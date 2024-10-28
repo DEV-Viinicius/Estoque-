@@ -612,14 +612,14 @@ public class FormularioFornecedores extends javax.swing.JFrame {
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
        
         String nome =txtNome.getText();
-        Clientes obj = new Clientes();
-        ClientesDAO dao = new ClientesDAO();
+        Fornecedores obj = new Fornecedores();
+        FornecedoresDAO dao = new FornecedoresDAO();
         
-        obj = dao.BuscarCliente(nome);
+        obj = dao.BuscarFornecedor(nome);
         if(obj.getNome()!= null ){
             txtCodigo.setText(String.valueOf(obj.getId()));
             txtNome.setText(obj.getNome());
-            txtCnpj.setText(obj.getCpf());
+            txtCnpj.setText(obj.getCnpj());
             txtEmail.setText(obj.getEmail());
             txtTelefone.setText(obj.getTelefone());
             txtCelular.setText(obj.getCelular());
@@ -632,7 +632,7 @@ public class FormularioFornecedores extends javax.swing.JFrame {
             cbUF.setSelectedItem(obj.getEstado());
        
         }else{
-            JOptionPane.showMessageDialog(null,"cliente não encontrado!");
+            JOptionPane.showMessageDialog(null,"Fornecerdor não encontrado!");
         }
         
         
@@ -712,15 +712,15 @@ public class FormularioFornecedores extends javax.swing.JFrame {
 
     private void txtNomeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomeKeyPressed
         if(evt.getKeyCode()== KeyEvent.VK_ENTER){
-            String nome =txtNome.getText();
-        Clientes obj = new Clientes();
-        ClientesDAO dao = new ClientesDAO();
+                String nome =txtNome.getText();
+        Fornecedores obj = new Fornecedores();
+        FornecedoresDAO dao = new FornecedoresDAO();
         
-        obj = dao.BuscarCliente(nome);
+        obj = dao.BuscarFornecedor(nome);
         if(obj.getNome()!= null ){
             txtCodigo.setText(String.valueOf(obj.getId()));
             txtNome.setText(obj.getNome());
-            txtCnpj.setText(obj.getCpf());
+            txtCnpj.setText(obj.getCnpj());
             txtEmail.setText(obj.getEmail());
             txtTelefone.setText(obj.getTelefone());
             txtCelular.setText(obj.getCelular());
@@ -733,7 +733,7 @@ public class FormularioFornecedores extends javax.swing.JFrame {
             cbUF.setSelectedItem(obj.getEstado());
        
         }else{
-            JOptionPane.showMessageDialog(null,"cliente não encontrado!");
+            JOptionPane.showMessageDialog(null,"Fornecedor não encontrado!");
         }
         }
     }//GEN-LAST:event_txtNomeKeyPressed

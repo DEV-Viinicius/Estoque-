@@ -99,22 +99,18 @@ public class FornecedoresDAO {
 
    }
    
-   public Funcionarios BuscarFuncionarios(String nome){
+   public Fornecedores BuscarFornecedor(String nome){
    try {
-       String sql = "select * from tb_funcionarios where nome = ?  ";
+       String sql = "select * from tb_fornecedores where nome = ?  ";
        PreparedStatement stmt = conn.prepareStatement(sql);
        stmt.setString(1,nome);
        ResultSet rs = stmt.executeQuery();
-       Funcionarios obj = new Funcionarios();
+       Fornecedores obj = new Fornecedores();
        if(rs.next()){
            obj.setId(rs.getInt("id"));
            obj.setNome(rs.getString("nome"));
-           obj.setRg(rs.getString("rg"));
-           obj.setCpf(rs.getString("cpf"));
+           obj.setCnpj(rs.getString("cnpj"));
            obj.setEmail(rs.getString("email"));
-           obj.setSenha(rs.getString("senha"));
-           obj.setCargo(rs.getString("cargo"));
-           obj.setNivel_acesso(rs.getString("nivel_acesso"));
            obj.setTelefone(rs.getString("telefone"));
            obj.setCelular(rs.getString("celular"));
            obj.setCep(rs.getString("cep"));
@@ -129,7 +125,7 @@ public class FornecedoresDAO {
        return obj;
        
    }catch(SQLException erro){
-       JOptionPane.showMessageDialog(null,"erro ao buscar funcionario "+erro);
+       JOptionPane.showMessageDialog(null,"erro ao buscar forncedor "+erro);
    }
    return null;
    }
