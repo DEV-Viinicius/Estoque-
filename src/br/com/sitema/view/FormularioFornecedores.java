@@ -640,16 +640,15 @@ public class FormularioFornecedores extends javax.swing.JFrame {
 
     private void btnPesquisaNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisaNomeActionPerformed
         String nome = "%"+txtPesquisaNome.getText()+"%";
-        ClientesDAO dao =new ClientesDAO();
-    List<Clientes>lista = dao.Filtrar(nome);
+        FornecedoresDAO dao =new FornecedoresDAO();
+    List<Fornecedores>lista = dao.Filtrar(nome);
     DefaultTableModel dados = (DefaultTableModel) tabela.getModel();
     dados.setRowCount(0);
-    for(Clientes c : lista){
+    for(Fornecedores c : lista){
         dados.addRow(new Object[]{
         c.getId(),
         c.getNome(),
-        c.getRg(),
-        c.getCpf(),
+        c.getCnpj(),
         c.getEmail(),
         c.getTelefone(),
         c.getCelular(),
@@ -678,16 +677,15 @@ public class FormularioFornecedores extends javax.swing.JFrame {
 
     private void txtPesquisaNomeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisaNomeKeyReleased
         String nome = "%"+txtPesquisaNome.getText()+"%";
-        ClientesDAO dao =new ClientesDAO();
-    List<Clientes>lista = dao.Filtrar(nome);
+        FornecedoresDAO dao =new FornecedoresDAO();
+    List<Fornecedores>lista = dao.Filtrar(nome);
     DefaultTableModel dados = (DefaultTableModel) tabela.getModel();
     dados.setRowCount(0);
-    for(Clientes c : lista){
+    for(Fornecedores c : lista){
         dados.addRow(new Object[]{
         c.getId(),
         c.getNome(),
-        c.getRg(),
-        c.getCpf(),
+        c.getCnpj(),
         c.getEmail(),
         c.getTelefone(),
         c.getCelular(),

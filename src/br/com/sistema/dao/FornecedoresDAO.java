@@ -163,25 +163,21 @@ List<Fornecedores>lista = new ArrayList<>();
     }  
     return null;
   }
-public List<Funcionarios>Filtrar(String nome){
-List<Funcionarios>lista = new ArrayList<>();
+public List<Fornecedores>Filtrar(String nome){
+List<Fornecedores>lista = new ArrayList<>();
     try{
-        String sql = "select * from tb_funcionarios where nome like ?";
+        String sql = "select * from tb_fornecedores where nome like ?";
         PreparedStatement stmt = conn.prepareStatement(sql);
         stmt.setString(1, nome);
         ResultSet rs = stmt.executeQuery();
         
         
         while(rs.next()){
-            Funcionarios obj = new Funcionarios();
+            Fornecedores obj = new Fornecedores();
            obj.setId(rs.getInt("id"));
            obj.setNome(rs.getString("nome"));
-           obj.setRg(rs.getString("rg"));
-           obj.setCpf(rs.getString("cpf"));
+           obj.setCnpj(rs.getString("cnpj"));
            obj.setEmail(rs.getString("email"));
-           obj.setSenha(rs.getString("senha"));
-           obj.setCargo(rs.getString("cargo"));
-           obj.setNivel_acesso(rs.getString("email"));
            obj.setTelefone(rs.getString("telefone"));
            obj.setCelular(rs.getString("celular"));
            obj.setCep(rs.getString("cep"));
