@@ -8,6 +8,8 @@ package br.com.sistema.dao;
 import br.com.sitema.jdbc.ConexaoBanco;
 import br.com.sitema.model.Clientes;
 import br.com.sitema.model.Funcionarios;
+import br.com.sitema.view.AreaTrabalho;
+import br.com.sitema.view.FormularioLogin;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -215,6 +217,27 @@ List<Funcionarios>lista = new ArrayList<>();
       JOptionPane.showMessageDialog(null,"erro ao criar a lista :"+e);
     }  
     return null;
+  }
+  public void efetuarLogin(String email, String senha){
+      try {
+          String sql = "select * from tb_funcionarios where email=? and senha=?";
+          PreparedStatement stmt = conn.prepareStatement(sql);
+          stmt.setString(1, email);
+          stmt.setString(2, senha);
+          
+          ResultSet rs = stmt.executeQuery();
+          if(rs.next()){
+              JOptionPane.showMessageDialog(null, "Seja bem vindo ao sistemas SADV!");
+              AreaTrabalho at = new AreaTrabalho();
+              at.setVisible(true);
+          }else {
+              FormularioLogin login = new FormularioLogin();
+              JOptionPane.showMessageDialog(null, "Dados incorretos!");
+              login.setVisible(true);
+          }
+      } catch (Exception e) {
+          JOptionPane.showMessageDialog(null,"erro"+ e);
+      }
   }
   }
    
