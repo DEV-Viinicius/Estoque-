@@ -6,8 +6,10 @@
 package br.com.sitema.view;
 
 import br.com.sistema.dao.ClientesDAO;
+import br.com.sistema.dao.ProdutosDAO;
 import br.com.sistema.utilitarios.Utilitarios;
 import br.com.sitema.model.Clientes;
+import br.com.sitema.model.Produtos;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -24,28 +26,18 @@ public class FormularioProdutos extends javax.swing.JFrame {
      */
     
     public void listar(){
-    ClientesDAO dao =new ClientesDAO();
-    List<Clientes>lista = dao.Listar();
+    ProdutosDAO dao = new ProdutosDAO();
+    List<Produtos>lista = dao.Listar();
     DefaultTableModel dados = (DefaultTableModel) tabela.getModel();
     dados.setRowCount(0);
-    for(Clientes c : lista){
+    for(Produtos p : lista){
         dados.addRow(new Object[]{
-        c.getId(),
-        c.getNome(),
-        c.getRg(),
-        c.getCpf(),
-        c.getEmail(),
-        c.getTelefone(),
-        c.getCelular(),
-        c.getCep(),
-        c.getEndereco(),
-        c.getNumero(),
-        c.getComplemento(),
-        c.getBairro(),
-        c.getCidade(),
-        c.getEstado()
-        
-        
+        p.getId(),
+        p.getDescricao(),
+        p.getPreco(),
+        p.getQtd_estoque(),
+        p.getFornecedores().getNome()
+     
         });
         
         
@@ -379,7 +371,7 @@ public class FormularioProdutos extends javax.swing.JFrame {
                     .addComponent(btnEditar)
                     .addComponent(btnImprimir)
                     .addComponent(btnExcluir))
-                .addGap(0, 74, Short.MAX_VALUE))
+                .addGap(0, 40, Short.MAX_VALUE))
         );
 
         pack();
