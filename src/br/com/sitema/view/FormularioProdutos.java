@@ -214,7 +214,7 @@ public class FormularioProdutos extends javax.swing.JFrame {
                                         .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
                                         .addComponent(btnPesquisar)))))
-                        .addGap(395, 401, Short.MAX_VALUE))))
+                        .addGap(401, 401, Short.MAX_VALUE))))
         );
         painel_dados_pessoaisLayout.setVerticalGroup(
             painel_dados_pessoaisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
