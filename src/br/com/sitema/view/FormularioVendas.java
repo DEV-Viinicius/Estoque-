@@ -48,6 +48,9 @@ public class FormularioVendas extends javax.swing.JFrame {
     }
 
     Clientes obj = new Clientes();
+    double preco, subtotal, total;
+    int qtd;
+    DefaultTableModel meus_produtos;
 
     /**
      * Creates new form FormularioVendas
@@ -270,10 +273,19 @@ public class FormularioVendas extends javax.swing.JFrame {
 
         txtEstoque.setEnabled(false);
 
+        txtQtd.setText("1");
+
+        btnAdicionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/sitema/imagens/add1.png"))); // NOI18N
         btnAdicionar.setText("ADD ITEM");
+        btnAdicionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdicionarActionPerformed(evt);
+            }
+        });
 
         jLabel11.setText("Desconto%:");
 
+        btnPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/sitema/imagens/buscar.png"))); // NOI18N
         btnPesquisar.setText("Pesquisar");
         btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -281,6 +293,7 @@ public class FormularioVendas extends javax.swing.JFrame {
             }
         });
 
+        btnLimpar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/sitema/imagens/3792081_broom_halloween_magic_witch_icon.png"))); // NOI18N
         btnLimpar.setText("LIMPAR");
         btnLimpar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -300,7 +313,7 @@ public class FormularioVendas extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(92, 92, 92)
-                        .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painel_produtoLayout.createSequentialGroup()
                         .addGroup(painel_produtoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -311,7 +324,8 @@ public class FormularioVendas extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel11)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtDesconto, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtDesconto, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(45, 45, 45))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painel_produtoLayout.createSequentialGroup()
                                 .addGroup(painel_produtoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addGroup(painel_produtoLayout.createSequentialGroup()
@@ -323,18 +337,18 @@ public class FormularioVendas extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(txtEstoque)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(painel_produtoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(painel_produtoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(painel_produtoLayout.createSequentialGroup()
                                         .addGap(0, 0, Short.MAX_VALUE)
                                         .addComponent(jLabel10)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(txtQtd, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(painel_produtoLayout.createSequentialGroup()
-                                        .addComponent(btnAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
+                                        .addComponent(btnAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(btnLimpar)
                                         .addGap(0, 0, Short.MAX_VALUE)))))
-                        .addGap(122, 122, 122))))
+                        .addGap(77, 77, 77))))
         );
         painel_produtoLayout.setVerticalGroup(
             painel_produtoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -355,7 +369,7 @@ public class FormularioVendas extends javax.swing.JFrame {
                             .addComponent(txtProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(painel_produtoLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(painel_produtoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(painel_produtoLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -372,9 +386,11 @@ public class FormularioVendas extends javax.swing.JFrame {
                 .addGroup(painel_produtoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(txtEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnLimpar))
-                .addGap(28, 28, 28))
+                    .addComponent(btnLimpar)
+                    .addGroup(painel_produtoLayout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(btnAdicionar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Carrinho de compras"));
@@ -416,8 +432,15 @@ public class FormularioVendas extends javax.swing.JFrame {
             }
         });
 
+        btnPagamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/sitema/imagens/pagamentos.png"))); // NOI18N
         btnPagamento.setText("PAGAMENTO");
+        btnPagamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPagamentoActionPerformed(evt);
+            }
+        });
 
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/sitema/imagens/excluir.png"))); // NOI18N
         btnCancelar.setText("CANCELAR");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -425,16 +448,15 @@ public class FormularioVendas extends javax.swing.JFrame {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(24, 24, 24)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
                         .addComponent(jLabel12)
                         .addGap(18, 18, 18)
                         .addComponent(txtTotalVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(btnPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
+                        .addComponent(btnPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(56, Short.MAX_VALUE))
         );
@@ -446,9 +468,9 @@ public class FormularioVendas extends javax.swing.JFrame {
                     .addComponent(txtTotalVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnCancelar)
-                    .addComponent(btnPagamento))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -495,6 +517,7 @@ public class FormularioVendas extends javax.swing.JFrame {
         txtProduto.setText(tabelaProduto.getValueAt(tabelaProduto.getSelectedRow(), 1).toString());
         txtPreco.setText(tabelaProduto.getValueAt(tabelaProduto.getSelectedRow(), 2).toString());
         txtEstoque.setText(tabelaProduto.getValueAt(tabelaProduto.getSelectedRow(), 3).toString());
+        txtCodigo.setEnabled(false);
 
 
     }//GEN-LAST:event_tabelaProdutoMouseClicked
@@ -612,6 +635,57 @@ public class FormularioVendas extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_txtPesquisaProdutoKeyReleased
 
+    private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
+        String nome = txtProduto.getText();
+        Produtos obj = new Produtos();
+        ProdutosDAO daop = new ProdutosDAO();
+        obj = daop.BuscarProdutos(nome);
+        if (obj.getDescricao()!=null) {
+            int estoque = Integer.valueOf(txtEstoque.getText());
+            int quantidade = Integer.valueOf(txtQtd.getText());
+            preco = Double.valueOf(txtPreco.getText());
+            qtd = Integer.valueOf(txtQtd.getText());
+            subtotal = preco*qtd;
+            total += subtotal;
+            if (estoque>=quantidade) {
+                txtTotalVenda.setText(String.valueOf(total));
+                meus_produtos = (DefaultTableModel)Carrinho.getModel();
+                meus_produtos.addRow(new Object[]{
+                    txtCodigo.getText(),
+                    txtProduto.getText(),
+                    txtQtd.getText(),
+                    txtPreco.getText(),
+                    subtotal
+            
+                });
+        }else{
+         JOptionPane.showMessageDialog(null, "A quantidade desejada é \n maior do que a que tem no estoque");
+        }
+        }else{
+                JOptionPane.showMessageDialog(null, "Não foi possível adicionar ao carrinho. Faltam informações");
+                
+        }
+    }//GEN-LAST:event_btnAdicionarActionPerformed
+
+    private void btnPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagamentoActionPerformed
+        String nome = txtNome.getText();
+        String cpf = txtCpf.getText();
+        obj = new Clientes();
+        ClientesDAO daoc = new ClientesDAO();
+        obj = daoc.BuscarCliente(nome);
+        obj = daoc.BuscarClienteCPF(cpf);
+        if (obj.getNome()!=null && obj.getCpf()!=null){
+            FormularioPagamentos telaPag = new FormularioPagamentos();
+            telaPag.clientes = obj;
+            telaPag.meus_produtos = meus_produtos;
+            telaPag.txtTotalVenda.setText(String.valueOf(total));
+            telaPag.setVisible(true);
+            this.dispose();
+        }else{
+            JOptionPane.showMessageDialog(null, "Verifique se você não esqueceu de\n preencher alguma informação importante!\n Os campos podem ser NOME e/ou CPF!");
+        }
+    }//GEN-LAST:event_btnPagamentoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -672,7 +746,6 @@ public class FormularioVendas extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPanel painel_produto;
     private javax.swing.JTable tabelaProduto;
