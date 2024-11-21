@@ -19,7 +19,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author vinic
  */
-public class FormularioFornecedores extends javax.swing.JFrame {
+public class FormularioFornecedores extends javax.swing.JDialog {
 
     /**
      * Creates new form FormularioClientes
@@ -60,7 +60,8 @@ public class FormularioFornecedores extends javax.swing.JFrame {
     
     
     
-    public FormularioFornecedores() {
+    public FormularioFornecedores(java.awt.Frame parent, boolean modal) {
+        super(parent,modal);
         initComponents();
     }
 
@@ -786,7 +787,7 @@ public class FormularioFornecedores extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new FormularioFornecedores().setVisible(true);
+//                new FormularioFornecedores().setVisible(true);
             }
         });
     }

@@ -231,7 +231,7 @@ public class FormularioPagamentos extends javax.swing.JFrame {
           VendasDAO vd = new VendasDAO();
           vd.salvar(v);
           v.setId(vd.retornaUltimoIdVenda());
-          JOptionPane.showMessageDialog(null, "ID da última venda!"+v.getId());
+          //JOptionPane.showMessageDialog(null, "ID da última venda!"+v.getId());
           
           for(int i=0; i<meus_produtos.getRowCount();i++) {
               int qtd_estoque,qtd_comprada, qtd_atualizada;
@@ -249,6 +249,9 @@ public class FormularioPagamentos extends javax.swing.JFrame {
               pd.baixaEstoque(p.getId(), qtd_atualizada);
               ItensVendasDAO ivd = new ItensVendasDAO();
               ivd.salvar(item);
+              dispose();
+              FormularioVendas fv = new FormularioVendas();
+              fv.setVisible(true);
           
           
           }
@@ -290,7 +293,7 @@ public class FormularioPagamentos extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FormularioPagamentos().setVisible(true);
+//                new FormularioPagamentos().setVisible(true);
             }
         });
     }

@@ -227,9 +227,22 @@ List<Funcionarios>lista = new ArrayList<>();
           
           ResultSet rs = stmt.executeQuery();
           if(rs.next()){
-              JOptionPane.showMessageDialog(null, "Seja bem vindo ao sistemas SADV!");
+              if(rs.getString("nivel_acesso").equals("Administrador")){
               AreaTrabalho at = new AreaTrabalho();
+              at.usuarioLogado=rs.getString("nome");
+              JOptionPane.showMessageDialog(null, "Seja bem vindo ao sistemas SADV!\n"+at.usuarioLogado);
               at.setVisible(true);
+              }
+              else if(rs.getString("nivel_acesso").equals("Usuário")){
+              AreaTrabalho at = new AreaTrabalho();
+              at.usuarioLogado=rs.getString("nome");
+              at.menu_fornecedores.setVisible(false);
+              at.menu_funcionario.setEnabled(false);
+              at.menu_estoque.setEnabled(false);
+              
+              JOptionPane.showMessageDialog(null, "Seja bem vindo ao sistemas SADV!\n"+at.usuarioLogado);
+              at.setVisible(true);
+              }
           }else {
               FormularioLogin login = new FormularioLogin();
               JOptionPane.showMessageDialog(null, "Dados incorretos!");

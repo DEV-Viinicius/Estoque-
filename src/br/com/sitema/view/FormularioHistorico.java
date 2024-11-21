@@ -5,6 +5,15 @@
  */
 package br.com.sitema.view;
 
+import br.com.sistema.dao.ItensVendasDAO;
+import br.com.sistema.dao.VendasDAO;
+import br.com.sitema.model.ItensVendas;
+import br.com.sitema.model.Vendas;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author vinic
@@ -70,7 +79,9 @@ public class FormularioHistorico extends javax.swing.JFrame {
         ));
         jScrollPane5.setViewportView(jTable2);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("historico  de vendas ");
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
 
@@ -101,13 +112,13 @@ public class FormularioHistorico extends javax.swing.JFrame {
         jLabel3.setText("Data fim :");
 
         try {
-            txtFim.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+            txtFim.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/20##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
 
         try {
-            txtInicio.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+            txtInicio.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/20##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
@@ -157,6 +168,11 @@ public class FormularioHistorico extends javax.swing.JFrame {
                 "codigio", "cliente", "data da venda", "total da venda", "obervações"
             }
         ));
+        tabela.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tabela);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -182,11 +198,55 @@ public class FormularioHistorico extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnPesquisarVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarVendaActionPerformed
-        // TODO add your handling code here:
+       DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+       LocalDate data_inicio = LocalDate.parse(txtInicio.getText(),formato);
+       LocalDate data_fim = LocalDate.parse(txtFim.getText(),formato);
+       VendasDAO vd = new VendasDAO();
+       List<Vendas>lista = vd.historiVenda(data_inicio, data_fim);
+       DefaultTableModel historico = (DefaultTableModel) tabela.getModel();
+       historico.setNumRows(0);
+       for(Vendas v : lista){
+           historico.addRow(new Object[]{
+           v.getId(),
+           v.getClientes().getNome(),
+           v.getData_venda(),
+           v.getTotal_venda(),
+           v.getObservacoes(),
+               
+           });
+       }
+        
+       
     }//GEN-LAST:event_btnPesquisarVendaActionPerformed
+
+    private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
+        FormularioDetalheVenda fdv = new FormularioDetalheVenda();
+        fdv.txtIdVenda.setText(tabela.getValueAt(tabela.getSelectedRow(), 0).toString());
+        fdv.txtCliente.setText(tabela.getValueAt(tabela.getSelectedRow(), 1).toString());
+        fdv.txtDataVenda.setText(tabela.getValueAt(tabela.getSelectedRow(), 2).toString());
+        fdv.txtTotalVenda.setText(tabela.getValueAt(tabela.getSelectedRow(), 3).toString());
+        fdv.txtObs.setText(tabela.getValueAt(tabela.getSelectedRow(), 4).toString());
+        int venda_id = Integer.valueOf(fdv.txtIdVenda.getText());
+        ItensVendasDAO dao = new ItensVendasDAO();
+        List<ItensVendas>lista = dao.listaItens(venda_id);
+        DefaultTableModel dados = (DefaultTableModel) fdv.Carrinho.getModel();
+        for(ItensVendas i : lista){
+            dados.addRow(new Object[]{
+            i.getProdutos().getId(),
+                i.getProdutos().getDescricao(),
+                i.getQtd(),
+                i.getProdutos().getPreco(),
+                i.getSubtotal()
+                
+        });
+        }
+        fdv.setVisible(true);
+        
+    }//GEN-LAST:event_tabelaMouseClicked
 
     /**
      * @param args the command line arguments
@@ -199,7 +259,7 @@ public class FormularioHistorico extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -218,7 +278,7 @@ public class FormularioHistorico extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FormularioHistorico().setVisible(true);
+              new FormularioHistorico().setVisible(true);
             }
         });
     }

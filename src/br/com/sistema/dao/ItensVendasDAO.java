@@ -7,8 +7,13 @@ package br.com.sistema.dao;
 
 import br.com.sitema.jdbc.ConexaoBanco;
 import br.com.sitema.model.ItensVendas;
+import br.com.sitema.model.Produtos;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -35,11 +40,36 @@ public class ItensVendasDAO {
            throw new RuntimeException("Erro ao salvar os itens da minha venda!");
        }
    }
-   
-   
-   
-   
-   
-   
-   
+    public List<ItensVendas>listaItens(int venda_id){
+        try {
+            List<ItensVendas>lista = new ArrayList<>();
+           String sql = "select p.id, p.descricao, i.qtd, p.preco, i.subtotal from tb_itensvendas as i inner "
+                   + "join tb_produtos as p on(i.produto_id = p.id) where i.venda_id =?"; 
+           PreparedStatement stmt = conn.prepareStatement(sql);
+           stmt.setInt(1, venda_id);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                ItensVendas item = new ItensVendas();
+                Produtos p = new Produtos();
+                p.setId(rs.getInt("p.id"));
+                item.setProdutos(p);
+                p.setDescricao(rs.getString("p.descricao"));
+                item.setProdutos(p);
+                item.setQtd(rs.getInt("i.qtd"));
+                p.setPreco(rs.getDouble("p.preco"));
+                item.setProdutos(p);
+                item.setSubtotal(rs.getInt("i.subtotal"));
+                lista.add(item);
+                
+            }
+            return lista;
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao criar a lista de itens"+e);
+        }
+        }
 }
+         
+ 
+
+
+

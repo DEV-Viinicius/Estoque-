@@ -6,10 +6,15 @@
 package br.com.sistema.dao;
 
 import br.com.sitema.jdbc.ConexaoBanco;
+import br.com.sitema.model.Clientes;
 import br.com.sitema.model.Vendas;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -55,5 +60,54 @@ public class VendasDAO {
        } catch (Exception e) {
            throw new RuntimeException("Erro ao retornar o último id da venda!"+e);
        }
+   }
+   public List<Vendas>historiVenda(LocalDate data_inicio, LocalDate data_fim){
+       try {
+           List<Vendas>lista = new ArrayList<>();
+           String sql = "select v.id,c.nome,date_format(v.data_venda, '%d/%m/%Y')"
+                   + "as data_formatada,v.total_venda,v.observacoes from tb_vendas as v inner join "
+                   + "tb_clientes as c on (v.cliente_id=c.id)"
+                   + "where v.data_venda between ?  and ?";
+           
+           PreparedStatement stmt = conn.prepareStatement(sql);
+           stmt.setString(1,data_inicio.toString());
+           stmt.setString(2,data_fim.toString());
+           
+           ResultSet rs = stmt.executeQuery();
+           while(rs.next()){
+               Vendas v = new Vendas();
+               Clientes c = new Clientes();
+             v.setId(rs.getInt("v.id"));
+             c.setNome(rs.getString("c.nome"));
+             v.setClientes(c);
+             v.setData_venda(rs.getString("data_formatada"));
+             v.setTotal_venda(rs.getDouble("v.total_venda"));
+             v.setObservacoes(rs.getString("v.observacoes"));
+             lista.add(v);
+                   
+           }
+           return lista;
+       } catch (SQLException e) {
+           throw new RuntimeException("erro ao criar o historico de vendas!"+e);
+       }
+   
+   }
+   public double posicaoDoDia(LocalDate data_venda){
+       try {
+           double total_do_dia = 0;
+           String sql = "select sum(total_venda) as total from tb_vendas where data_venda=?";
+           PreparedStatement stmt =conn.prepareCall(sql);
+           stmt.setString(1, data_venda.toString());
+           ResultSet rs = stmt.executeQuery();
+           
+           if(rs.next()){
+               total_do_dia = rs.getDouble("total");
+           }
+           return total_do_dia;
+       } catch (SQLException e) {
+         throw new RuntimeException("erro ao retornar a posição do dia"+e);
+       }
+   
+   
    }
 }

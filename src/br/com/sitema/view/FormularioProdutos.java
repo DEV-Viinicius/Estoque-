@@ -21,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author vinic
  */
-public class FormularioProdutos extends javax.swing.JFrame {
+public class FormularioProdutos extends javax.swing.JDialog {
 
     /**
      * Creates new form FormularioClientes
@@ -53,7 +53,8 @@ public class FormularioProdutos extends javax.swing.JFrame {
     
     
     
-    public FormularioProdutos() {
+    public FormularioProdutos(java.awt.Frame parent, boolean modal) {
+        super(parent,modal);
         initComponents();
     }
 
@@ -635,7 +636,7 @@ public class FormularioProdutos extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new FormularioProdutos().setVisible(true);
+//                new FormularioProdutos().setVisible(true);
             }
         });
     }
